@@ -31,17 +31,17 @@ from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
 
-# Import the code for the dialog
-from .Plugin.main_dialog import MainDialog
-
-# Initialize Qt resources from file resources.py
-from .resources import *  # noqa F403
-
 # load libs from libs directory (important for rocrate library)
 plugin_dir = os.path.dirname(__file__)
 libs_path = os.path.join(plugin_dir, "libs")
 if libs_path not in sys.path:
     sys.path.insert(0, libs_path)
+    
+# Import the code for the dialog
+from .Plugin.main_dialog import MainDialog
+
+# Initialize Qt resources from file resources.py
+from .resources import *  # noqa F403
 
 
 class AutomatedWorkflowDocumentation:
