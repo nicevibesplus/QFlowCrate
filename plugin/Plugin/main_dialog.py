@@ -10,6 +10,9 @@ from qgis.PyQt.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
 )
+from qgis.PyQt import QtGui
+
+import os
 
 # Import individual tab widgets
 from .Export.export_tab import ExportTab
@@ -37,7 +40,9 @@ class MainDialog(QDialog):
         super().__init__(parent)
 
         # Set window properties
-        self.setWindowTitle("Automated Workflow Documentation")
+        self.setWindowTitle("QFlowCrate")
+        icon_path = os.path.join(os.path.dirname(__file__), '..', 'icon.svg')
+        self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setMinimumSize(1000, 700)
         self.resize(1000, 700)
 

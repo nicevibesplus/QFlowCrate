@@ -34,9 +34,6 @@ from qgis.PyQt.QtWidgets import QAction, QMessageBox
 # Import the code for the dialog
 from .Plugin.main_dialog import MainDialog
 
-# Initialize Qt resources from file resources.py
-from .resources import *  # noqa F403
-
 
 class AutomatedWorkflowDocumentation:
     """QGIS Plugin Implementation."""
@@ -72,7 +69,7 @@ class AutomatedWorkflowDocumentation:
 
         # Declare instance attributes
         self.actions = []
-        self.menu = self.tr("&Automated Workflow Documentation")
+        self.menu = self.tr("&QFlowCrate")
 
         # Check if plugin was started the first time in current QGIS session
         # Must be set in initGui() to survive plugin reloads
@@ -133,10 +130,10 @@ class AutomatedWorkflowDocumentation:
 
     def initGui(self):  # noqa: N802
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
-        icon_path = ":/plugins/automated_workflow_documentation/icon.png"
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon.svg')
         self.add_action(
             icon_path,
-            text=self.tr("Automated Workflow Documentation"),
+            text=self.tr("QFlowCrate"),
             callback=self.run,
             parent=self.iface.mainWindow(),
         )
@@ -148,7 +145,7 @@ class AutomatedWorkflowDocumentation:
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             self.iface.removePluginMenu(
-                self.tr("&Automated Workflow Documentation"), action
+                self.tr("&QFlowCrate"), action
             )
             self.iface.removeToolBarIcon(action)
 
