@@ -6,7 +6,7 @@
 name=QFlowCrate
 qgisMinimumVersion=3.24
 description=This plugin allows the documentation and export of map creation workflow. The export file is a RO-Crate zip archive.
-version=0.0.5
+version=0.0.6
 author=Andreas Rademaker
 email=andreas.rademaker@uni-muenster.de
 
