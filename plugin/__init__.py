@@ -31,6 +31,13 @@ def classFactory(iface):  # pylint: disable=invalid-name # noqa: N802
     :param iface: A QGIS interface instance.
     :type iface: QgsInterface
     """
+    import sys
+    import os
+    # load libs from libs directory (important for rocrate library)
+    plugin_dir = os.path.dirname(__file__)
+    libs_path = os.path.join(plugin_dir, "libs")
+    if libs_path not in sys.path:
+        sys.path.insert(0, libs_path)
     #
     from .automated_workflow_documentation import AutomatedWorkflowDocumentation
 
