@@ -107,18 +107,18 @@ if ! [[ $REPLY =~ ^[Yy]$ ]]; then
     exit 0
 fi
 
-# Commit metadata file
-git add "$METADATA_FILE"
-git add "$README_FILE"
-git add "$PYPROJECT_FILE"
-git commit -m "Bump version to $VERSION"
+git add "$METADATA_FILE" "$README_FILE" "$PYPROJECT_FILE"
 
-# Create and push tag
+if ! git diff --cached --quiet; then
+    git commit -m "Bump version to $VERSION"
+else
+    echo "No changes to commit. Proceeding with tag only."
+fi
+
 git tag -a "$VERSION" -m "Release $VERSION"
 
-# Push changes and tags
 git push origin main
-git push origin --tags
+git push origin "$VERSION"
 
 echo ""
 echo "Version updated in $METADATA_FILE: $VERSION_NUMBER"
