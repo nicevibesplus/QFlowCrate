@@ -69,6 +69,24 @@ else
     sed -i "s/^version=.*/version=$VERSION_NUMBER/" "$METADATA_FILE"
 fi
 
+# Update readme.md
+echo "Updating readme.md with new version link and text..."
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    sed -i '' "s|\[qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip\]|[qflowcrate-v$VERSION_NUMBER.zip]|g" "readme.md"
+else
+    # Linux
+    sed -i "s|\[qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip\]|[qflowcrate-v$VERSION_NUMBER.zip]|g" "readme.md"
+fi
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    sed -i '' "s|https://github.com/nicevibesplus/QFlowCrate/releases/download/v[0-9]\+\.[0-9]\+\.[0-9]\+/qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip|https://github.com/nicevibesplus/QFlowCrate/releases/download/v$VERSION_NUMBER/qflowcrate-v$VERSION_NUMBER.zip|g" "readme.md"
+else
+    # Linux
+    sed -i "s|https://github.com/nicevibesplus/QFlowCrate/releases/download/v[0-9]\+\.[0-9]\+\.[0-9]\+/qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip|https://github.com/nicevibesplus/QFlowCrate/releases/download/v$VERSION_NUMBER/qflowcrate-v$VERSION_NUMBER.zip|g" "readme.md"
+fi
+
 # Confirm changes
 read -p "Proceed with commit and release? (y/N) " -n 1 -r
 echo
