@@ -4,6 +4,7 @@ set -e
 VERSION=$1
 METADATA_FILE="qflowcrate/metadata.txt"
 README_FILE="README.md"
+PYPROJECT_FILE="pyproject.toml"
 
 # Show help if no version provided
 if [ -z "$VERSION" ]; then
@@ -88,6 +89,15 @@ else
     sed -i "s|https://github.com/nicevibesplus/QFlowCrate/releases/download/v[0-9]\+\.[0-9]\+\.[0-9]\+/qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip|https://github.com/nicevibesplus/QFlowCrate/releases/download/v$VERSION_NUMBER/qflowcrate-v$VERSION_NUMBER.zip|g" "$README_FILE"
 fi
 
+# Update pyproject.toml
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    sed -i '' "s|^version = \".*\"|version = \"$VERSION_NUMBER\"|" "$PYPROJECT_FILE"
+else
+    # Linux
+    sed -i "s|^version = \".*\"|version = \"$VERSION_NUMBER\"|" "$PYPROJECT_FILE"
+fi
+
 # Confirm changes
 read -p "Proceed with commit and release? (y/N) " -n 1 -r
 echo
@@ -100,6 +110,7 @@ fi
 # Commit metadata file
 git add "$METADATA_FILE"
 git add "$README_FILE"
+git add "$PYPROJECT_FILE"
 git commit -m "Bump version to $VERSION"
 
 # Create and push tag
