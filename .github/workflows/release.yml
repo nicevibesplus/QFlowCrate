@@ -26,9 +26,9 @@ jobs:
           mkdir -p release/qflowcrate
           cp -r qflowcrate/* release/qflowcrate/
 
-      - name: Copy LICENSE to directory
+      - name: Copy LICENSE to release directory
         run: |
-          cp LICENSE release/
+          cp LICENSE release/qflowcrate/
 
       - name: Install dependencies to libs
         run: |
