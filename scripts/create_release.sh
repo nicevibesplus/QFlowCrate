@@ -3,6 +3,7 @@ set -e
 
 VERSION=$1
 METADATA_FILE="qflowcrate/metadata.txt"
+README_FILE="README.md"
 
 # Show help if no version provided
 if [ -z "$VERSION" ]; then
@@ -73,18 +74,18 @@ fi
 echo "Updating readme.md with new version link and text..."
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS
-    sed -i '' "s|\[qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip\]|[qflowcrate-v$VERSION_NUMBER.zip]|g" "readme.md"
+    sed -i '' "s|\[qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip\]|[qflowcrate-v$VERSION_NUMBER.zip]|g" "$README_FILE"
 else
     # Linux
-    sed -i "s|\[qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip\]|[qflowcrate-v$VERSION_NUMBER.zip]|g" "readme.md"
+    sed -i "s|\[qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip\]|[qflowcrate-v$VERSION_NUMBER.zip]|g" "$README_FILE"
 fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS
-    sed -i '' "s|https://github.com/nicevibesplus/QFlowCrate/releases/download/v[0-9]\+\.[0-9]\+\.[0-9]\+/qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip|https://github.com/nicevibesplus/QFlowCrate/releases/download/v$VERSION_NUMBER/qflowcrate-v$VERSION_NUMBER.zip|g" "readme.md"
+    sed -i '' "s|https://github.com/nicevibesplus/QFlowCrate/releases/download/v[0-9]\+\.[0-9]\+\.[0-9]\+/qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip|https://github.com/nicevibesplus/QFlowCrate/releases/download/v$VERSION_NUMBER/qflowcrate-v$VERSION_NUMBER.zip|g" "$README_FILE"
 else
     # Linux
-    sed -i "s|https://github.com/nicevibesplus/QFlowCrate/releases/download/v[0-9]\+\.[0-9]\+\.[0-9]\+/qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip|https://github.com/nicevibesplus/QFlowCrate/releases/download/v$VERSION_NUMBER/qflowcrate-v$VERSION_NUMBER.zip|g" "readme.md"
+    sed -i "s|https://github.com/nicevibesplus/QFlowCrate/releases/download/v[0-9]\+\.[0-9]\+\.[0-9]\+/qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip|https://github.com/nicevibesplus/QFlowCrate/releases/download/v$VERSION_NUMBER/qflowcrate-v$VERSION_NUMBER.zip|g" "$README_FILE"
 fi
 
 # Confirm changes
@@ -98,6 +99,7 @@ fi
 
 # Commit metadata file
 git add "$METADATA_FILE"
+git add "$README_FILE"
 git commit -m "Bump version to $VERSION"
 
 # Create and push tag
