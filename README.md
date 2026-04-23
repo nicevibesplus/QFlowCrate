@@ -6,7 +6,7 @@
 [![QGIS >= 3.24](https://img.shields.io/badge/QGIS-%3E%3D3.24-green)](https://qgis.org)
 [![Latest Release](https://img.shields.io/github/v/release/nicevibesplus/QFlowCrate)](https://github.com/nicevibesplus/QFlowCrate/releases/download/v0.0.9/qflowcrate-v0.0.9.zip)
 
-A QGIS plugin that retrieves the steps of a spatial analysis workflow and bundles everything into a **RO‑Crate** – a self‑describing, machine‑readable package that contains data, metadata, and provenance information. It helps with making QGIS projects reproducible, shareable, and ready for FAIR publishing.
+A QGIS plugin that retrieves the steps of a spatial analysis workflow and bundles everything into a **RO-Crate** – a self-describing, machine-readable package that contains data, metadata, and provenance information. It helps with making QGIS projects reproducible, shareable, and ready for FAIR publishing.
 <br clear="right"/>
 
 ---
@@ -29,9 +29,9 @@ Geospatial analyses in QGIS involve many steps:
 2. Applying geoprocessing operations (vector analysis, raster algebra, interpolation, etc.).  
 3. Styling layers, creating legends, and designing print layouts. 
 
-These actions are rarely documented in a structured, reusable way, which hampers **reproducibility**, **transparency**, and **long‑term preservation** of research results.  
+These actions are rarely documented in a structured, reusable way, which hampers **reproducibility**, **transparency**, and **long-term preservation** of research results.  
 
-QFlowCrate solves this problem by assisting the user to **capture the provenance** of the executed workflows in a QGIS project and exporting it as a **[RO‑Crate]((https://www.researchobject.org/ro-crate/))** – a community‑adopted standard for packaging research data and metadata. The resulting crate can be deposited in data repositories, shared with collaborators, or used as supplementary material for publications, thereby aligning geospatial workflows with FAIR principles.
+QFlowCrate solves this problem by assisting the user to **capture the provenance** of the executed workflows in a QGIS project and exporting it as a **[RO-Crate]((https://www.researchobject.org/ro-crate/))** – a community-adopted standard for packaging research data and metadata. The resulting crate can be deposited in data repositories, shared with collaborators, or used as supplementary material for publications, thereby aligning geospatial workflows with FAIR principles.
 
 More specifically, QFlowCrate will track down the file paths, URLs, coordinate reference systems, and symbology of **data layers** in the project. 
 Additionally, it will track the **processing steps** that were applied to the data layer, including the name of the process, units of measurement and other parameters. Moreover, 
@@ -50,12 +50,12 @@ QFlowCrate will help you document the **metadata** of your project, prompting to
 | Functionality | Feature | 
 |---------|------------------|
 | **Provenance capture** | Data layers, coordinate systems, processing steps, symbology. |
-| **RO‑Crate export** | Generates a standards‑compliant crate ready for FAIR sharing. All local data files are bundled in the exported ZIP. |
+| **RO-Crate export** | Generates a standards-compliant crate ready for FAIR sharing. All local data files are bundled in the exported ZIP. |
 | **Selective packaging** | Choose which layers/files to include (e.g., omit large raw rasters). |
 | **Custom metadata entry** | UI helps the user fill in title, description, and author details. |
-| **Cross‑platform** | Works on Windows, macOS, and Linux Ubuntu (QGIS ≥ 3.40). |
-| **Data‑format support** | <br>• **Vector:** Shapefile (`.shp`), GeoJSON (`.geojson`), KML (`.kml`) <br>• **Raster:** GeoTIFF (`.tif/.tiff`), PNG (`.png`), JPEG (`.jpg`) <br>• **Other:** CSV tables, OGC-compliant server connections (WFS, WMS) |
-| **RO‑Crate import** | Imports a RO-Crate ZIP for visualization and inspection. Workflow re-execution is currently not supported. |
+| **Cross-platform** | Works on Windows, macOS, and Linux Ubuntu (QGIS ≥ 3.40). |
+| **Data-format support** | <br>• **Vector:** Shapefile (`.shp`), GeoJSON (`.geojson`), KML (`.kml`) <br>• **Raster:** GeoTIFF (`.tif/.tiff`), PNG (`.png`), JPEG (`.jpg`) <br>• **Other:** CSV tables, OGC-compliant server connections (WFS, WMS) |
+| **RO-Crate import** | Imports a RO-Crate ZIP for visualization and inspection. Workflow re-execution is currently not supported. |
 
 ---
 
@@ -63,13 +63,13 @@ QFlowCrate will help you document the **metadata** of your project, prompting to
 
 ### 1️⃣ Download the latest release  
 
-Go to the **[Releases](https://github.com/nicevibesplus/QFlowCrate/releases)** page and download the ZIP file for the most recent version (Currently [qflowcrate‑v0.0.7.zip](https://github.com/nicevibesplus/QFlowCrate/releases/download/v0.0.9/qflowcrate-v0.0.9.zip)).
+Go to the **[Releases](https://github.com/nicevibesplus/QFlowCrate/releases)** page and download the ZIP file for the most recent version (Currently [qflowcrate-v0.0.7.zip](https://github.com/nicevibesplus/QFlowCrate/releases/download/v0.0.9/qflowcrate-v0.0.9.zip)).
 
 ### 2️⃣ Install the plugin in QGIS  
 
 1. Open QGIS.  
 1. From the main menu choose **Plugins → Manage and Install Plugins → Install from ZIP**.
-1. Browse your files and select the downloaded `qflowcrate‑vX.Y.Z.zip`.  
+1. Browse your files and select the downloaded `qflowcrate-vX.Y.Z.zip`.  
 1. Click **Install Plugin**.  
 
 ### 3️⃣ Verify the installation  
@@ -82,7 +82,7 @@ Go to the **[Releases](https://github.com/nicevibesplus/QFlowCrate/releases)** p
 
 ## Quick start  
 
-Below is a minimal, end‑to‑end example that demonstrates the typical workflow.
+Below is a minimal, end-to-end example that demonstrates the typical workflow.
 
 ### Step 1 – Prepare a QGIS project. 
 
@@ -115,7 +115,7 @@ rectangles.
 2. Click first on the source node (e.g., the shapefile rectangle) and then on the destination node (e.g., the 'extract by attribute' operation). You should now have an arrow that connects the shapefile and the processing operation.
 2. Repeat as necessary, until all data flows are properly illustrated in the Graph.
 
-### Step 6 – Export the RO‑Crate  
+### Step 6 – Export the RO-Crate  
 
 1. Navigate to the Export tab.
 1. Choose a destination folder (e.g., `~/Documents/QFlowCrate_Exports/ProjectA`).  
@@ -135,7 +135,7 @@ ProjectA/
    └─ symbology.qml
 ```
 
-### Step 7 – Import a RO‑Crate  
+### Step 7 – Import a RO-Crate  
 
 1. Navigate to the Import tab.
 1. Browse an already exported RO-Crate zip file.

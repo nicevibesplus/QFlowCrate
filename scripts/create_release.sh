@@ -74,10 +74,10 @@ fi
 echo "Updating readme.md with new version link and text..."
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS
-    sed -i '' "s|\[qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip\]|[qflowcrate-v$VERSION_NUMBER.zip]|g" "$README_FILE"
+    sed -i '' "s|qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip|qflowcrate-v$VERSION_NUMBER.zip|g" "$README_FILE"
 else
     # Linux
-    sed -i "s|\[qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip\]|[qflowcrate-v$VERSION_NUMBER.zip]|g" "$README_FILE"
+    sed -i "s|qflowcrate-v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip|qflowcrate-v$VERSION_NUMBER.zip|g" "$README_FILE"
 fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
