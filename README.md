@@ -55,6 +55,7 @@ QFlowCrate will help you document the **metadata** of your project, prompting to
 | **Custom metadata entry** | UI helps the user fill in title, description, and author details. |
 | **Cross‑platform** | Works on Windows, macOS, and Linux Ubuntu (QGIS ≥ 3.40). |
 | **Data‑format support** | <br>• **Vector:** Shapefile (`.shp`), GeoJSON (`.geojson`), KML (`.kml`) <br>• **Raster:** GeoTIFF (`.tif/.tiff`), PNG (`.png`), JPEG (`.jpg`) <br>• **Other:** CSV tables, OGC-compliant server connections (WFS, WMS) |
+| **RO‑Crate import** | Imports a RO-Crate ZIP for visualization and inspection. Workflow re-execution is currently not supported. |
 
 ---
 
@@ -133,6 +134,12 @@ ProjectA/
    ├─ geometry.geojson
    └─ symbology.qml
 ```
+
+### Step 7 – Import a RO‑Crate  
+
+1. Navigate to the Import tab.
+1. Browse an already exported RO-Crate zip file.
+1. Visualize the graph and inspect the graph elements for details. 
 
 ---
 

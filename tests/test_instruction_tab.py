@@ -66,13 +66,14 @@ def test_expected_sections_exist(instruction_tab):
     """All expected instruction sections should exist."""
     group_boxes = instruction_tab.findChildren(QGroupBox)
 
-    # Should have 3 sections: Overview, Graph Tab, Export Tab
-    assert len(group_boxes) == 3
+    # Should have 4 sections: Overview, Graph Tab, Export Tab, Import Tab
+    assert len(group_boxes) == 4
 
     expected_titles = [
         "Application Overview",
         "Graph Tab - Creating Your Workflow",
         "Export Tab - Exporting Your Workflow",
+        "Import Tab - Importing an Existing RO-Crate",
     ]
     titles = [g.title() for g in group_boxes]
     assert expected_titles == titles

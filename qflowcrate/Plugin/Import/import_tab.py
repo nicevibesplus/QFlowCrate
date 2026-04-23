@@ -36,12 +36,12 @@ from qflowcrate.Plugin.utility import get_logger
 class ImportedLayer:
     """Mock layer object rich enough to satisfy LayerMetadataDialog"""
     def __init__(self, dataset_entity, entity_map):
-        self.id = dataset_entity["@id"]
-        self.name = dataset_entity["name"]
+        self.id = dataset_entity.get("@id", "unknown")
+        self.name = dataset_entity.get("name", "Unknown Layer")
         self.clean_name = self.name
-        self.description = dataset_entity["description"]
+        self.description = dataset_entity.get("description", "")
         
-        visible_val = dataset_entity["layerVisible"]
+        visible_val = dataset_entity.get("layerVisible", True)
         self.visible = str(visible_val).lower() == "true" if isinstance(visible_val, str) else bool(visible_val)
 
         # Prepare default values
@@ -55,19 +55,19 @@ class ImportedLayer:
 
         # Find geometry entity which contains technical & external metadata
         geometry_entity = None
-        has_parts = dataset_entity["hasPart"]
+        has_parts = dataset_entity.get("hasPart", [])
         if isinstance(has_parts, dict): 
             has_parts = [has_parts]
             
         for part_ref in has_parts:
-            part_id = part_ref if isinstance(part_ref, str) else part_ref["@id"]
+            part_id = part_ref if isinstance(part_ref, str) else part_ref.get("@id", "")
             if part_id in entity_map and "geometry" in part_id.lower():
                 geometry_entity = entity_map[part_id]
                 break
 
         # Extract metadata from geometry entity
         if geometry_entity:
-            self.source = geometry_entity["@id"]
+            self.source = geometry_entity.get("@id", self.id)
             
             # Extract layer type (fall back to additionalType if layerType is somehow missing)
             raw_type = geometry_entity.get("layerType", geometry_entity.get("additionalType", "Unknown"))
@@ -96,11 +96,11 @@ class ImportedProcess:
     """Mock process object rich enough to satisfy ProcessMetadataDialog"""
     def __init__(self, action_entity, instrument_entity=None):
         self.id = action_entity["@id"]
-        self.name = action_entity["name"]
-        self.description = action_entity["description"]
+        self.name = action_entity.get("name", "Unknown Process")
+        self.description = action_entity.get("description", "")
         
         if instrument_entity:
-            self.algorithm_id = instrument_entity["name"]
+            self.algorithm_id = instrument_entity.get("name", "Unknown Algorithm")
         else:
             self.algorithm_id = "Unknown Algorithm"
             
@@ -115,9 +115,9 @@ class ImportedProcess:
                 self.timestamp = "Unknown Time"
         
         # Read custom QGIS properties
-        self.log = action_entity["qgisLog"]
-        raw_params = action_entity["qgisParameters"]
-        raw_results = action_entity["qgisResults"]
+        self.log = action_entity.get("qgisLog", "")
+        raw_params = action_entity.get("qgisParameters", "{}")
+        raw_results = action_entity.get("qgisResults", "{}")
         
         # Convert JSON strings to dictionaries for UI rendering in the metadata dialog
         try:
@@ -158,7 +158,8 @@ class ImportTab(QWidget):
 
         instruction_label = QLabel(
             "Select an exported RO-Crate (.zip) file to visualize its workflow graph. "
-            "This view is read-only. Right-click any node to inspect its metadata."
+            "This view is read-only. Right-click any node to inspect its metadata. "
+            "To zoom in and out of the graph, use the keyboard shortcuts Ctrl & '+' / Ctrl & '-', respectively."
         )
         instruction_label.setWordWrap(True)
         main_layout.addWidget(instruction_label)
@@ -257,11 +258,11 @@ class ImportTab(QWidget):
                 action_id = action["@id"]
                 
                 # Fetch instrument entity to pass to our Mock Process
-                instrument_refs = action["instrument"]
+                instrument_refs = action.get("instrument", [])
                 instrument_entity = None
                 if instrument_refs:
                     ref_id = instrument_refs[0]["@id"] if isinstance(instrument_refs, list) else instrument_refs["@id"]
-                    instrument_entity = self.entity_map[ref_id]
+                    instrument_entity = self.entity_map.get(ref_id)
 
                 # Create Process Node
                 process_obj = ImportedProcess(action, instrument_entity)
@@ -271,23 +272,23 @@ class ImportTab(QWidget):
                 self.graph_view.scene.addItem(p_node)
 
                 # Process Inputs (Data -> Process)
-                inputs = action["object"]
+                inputs = action.get("object", [])
                 if isinstance(inputs, dict): 
                     inputs = [inputs]
                 
                 for input_ref in inputs:
-                    in_id = input_ref["@id"]
+                    in_id = input_ref.get("@id")
                     if in_id:
                         norm_in_id = self._ensure_layer_node_exists(in_id)
                         connections_to_make.append((norm_in_id, action_id))
 
                 # Process Outputs (Process -> Data)
-                outputs = action["result"]
+                outputs = action.get("result", [])
                 if isinstance(outputs, dict): 
                     outputs = [outputs]
                 
                 for output_ref in outputs:
-                    out_id = output_ref["@id"]
+                    out_id = output_ref.get("@id")
                     if out_id:
                         norm_out_id = self._ensure_layer_node_exists(out_id)
                         connections_to_make.append((action_id, norm_out_id))
@@ -298,7 +299,7 @@ class ImportTab(QWidget):
                 target_node = self.nodes_map.get(target_id)
                 
                 if source_node and target_node:
-                    arrow = ConnectionArrow(source_node, target_node)
+                    arrow = ConnectionArrow(source_node, target_node, deletable=False)
                     self.graph_view.scene.addItem(arrow)
 
             # 6. Apply auto-layout
@@ -408,3 +409,10 @@ class ImportTab(QWidget):
             elif isinstance(node, ProcessNode):
                 for arrow in node.input_arrows + node.output_arrows:
                     arrow.update_position()
+
+        # Update scene rect to encompass all items
+        scene_rect = self.graph_view.scene.itemsBoundingRect()
+        self.graph_view.scene.setSceneRect(scene_rect)
+
+        # Fit the view to show all items within the visible area
+        self.graph_view.fitInView(scene_rect, Qt.KeepAspectRatio)

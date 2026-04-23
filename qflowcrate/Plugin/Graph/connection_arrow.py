@@ -20,18 +20,21 @@ class ConnectionArrow(QGraphicsLineItem):
     # INITIALIZATION
     # ============================================================================
 
-    def __init__(self, start_node, end_node):
+    def __init__(self, start_node, end_node, deletable=True):
         """Initialize a ConnectionArrow between two nodes.
 
         :param start_node: Starting node for the connection
         :type start_node: LayerNode or ProcessNode
         :param end_node: Ending node for the connection
         :type end_node: LayerNode or ProcessNode
+        :param deletable: Whether the arrow can be deleted by clicking
+        :type deletable: bool
         """
         super().__init__()
         self.start_node = start_node
         self.end_node = end_node
         self.arrowhead = None  # Will hold the arrowhead polygon
+        self.deletable = deletable
 
         # Set visual properties
         self.setPen(QPen(Qt.black, 2))
@@ -57,7 +60,7 @@ class ConnectionArrow(QGraphicsLineItem):
             if self.arrowhead:
                 scene.addItem(self.arrowhead)
 
-        self.setToolTip("Click to delete connection")
+        self.setToolTip("Double click to delete connection" if self.deletable else "")
 
     # ============================================================================
     # POSITION CALCULATION
@@ -204,12 +207,12 @@ class ConnectionArrow(QGraphicsLineItem):
     # ============================================================================
 
     def mousePressEvent(self, event):  # noqa: N802
-        """Delete arrow on click.
+        """Delete arrow on click if deletable.
 
         :param event: Mouse press event
         :type event: QMouseEvent
         """
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.LeftButton and self.deletable:
             self.remove_arrow()
 
     # ============================================================================

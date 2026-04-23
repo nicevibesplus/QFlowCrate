@@ -34,6 +34,9 @@ class GraphView(QGraphicsView):
         self.setAcceptDrops(True)
         self.setDragMode(QGraphicsView.RubberBandDrag)
 
+        # Enable keyboard focus for zoom shortcuts
+        self.setFocusPolicy(Qt.StrongFocus)
+
         # Connection mode
         self.connection_mode = False
         self.connection_start = None
@@ -92,6 +95,32 @@ class GraphView(QGraphicsView):
     # ============================================================================
     # MOUSE EVENT HANDLERS
     # ============================================================================
+
+    def keyPressEvent(self, event):  # noqa: N802
+        """Handle keyboard shortcuts for zooming.
+
+        :param event: Key press event
+        :type event: QKeyEvent
+        """
+        if event.modifiers() & Qt.ControlModifier:
+            if event.key() == Qt.Key_Plus:
+                # Zoom in
+                zoom_factor = 1.2
+                current_scale = self.transform().m11()
+                new_scale = current_scale * zoom_factor
+                if new_scale <= 5.0:
+                    self.scale(zoom_factor, zoom_factor)
+            elif event.key() == Qt.Key_Minus:
+                # Zoom out
+                zoom_factor = 1.0 / 1.2
+                current_scale = self.transform().m11()
+                new_scale = current_scale * zoom_factor
+                if new_scale >= 0.1:
+                    self.scale(zoom_factor, zoom_factor)
+            else:
+                super().keyPressEvent(event)
+        else:
+            super().keyPressEvent(event)
 
     def mousePressEvent(self, event):  # noqa: N802
         """Handle mouse press for connections.
@@ -193,7 +222,11 @@ class GraphView(QGraphicsView):
         """
         self.connection_mode = enabled
         if not enabled and self.connection_start:
-            self.connection_start.setBrush(
-                self._get_original_brush(self.connection_start)
-            )
+            try:
+                self.connection_start.setBrush(
+                    self._get_original_brush(self.connection_start)
+                )
+            except RuntimeError:
+                # Object has been deleted
+                pass
             self.connection_start = None

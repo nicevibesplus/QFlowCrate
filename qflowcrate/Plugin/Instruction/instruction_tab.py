@@ -45,8 +45,14 @@ class InstructionTab(QWidget):
         scroll_area.setWidgetResizable(True)
         scroll_area.setFrameStyle(QFrame.NoFrame)
 
+        # Create container widget for scroll area content
+        container = QWidget()
+        container_layout = QVBoxLayout(container)
+        container_layout.setContentsMargins(10, 10, 10, 10)
+        container_layout.setSpacing(12)
+
         self._add_section(
-            main_layout,
+            container_layout,
             "Application Overview",
             "This plugin helps you to document your project and its creation workflow. "
             "It exports to RO-Crate 1.1 to enable sharing of the map. The export "
@@ -56,7 +62,7 @@ class InstructionTab(QWidget):
 
         # Graph tab instructions
         self._add_section(
-            main_layout,
+            container_layout,
             "Graph Tab - Creating Your Workflow",
             "This tab allows you to create your projects workflow. All the nodes in "
             "this graph will be exported to the RO-Crate.",
@@ -74,10 +80,12 @@ class InstructionTab(QWidget):
             "ask for a title and description.",
             "Step 3: Add connections between the graphs layers and processing steps. "
             "This creates a complete workflow diagram. Without this, the dependencies "
-            "of the layers will be missing in the final export.",
+            "of the layers will be missing in the final export. "
+            "The user can zoom in and out of the graph using the keyboard shortcuts "
+            "Ctrl & '+' / Ctrl & '-', respectively.",
         )
         self._add_section(
-            main_layout,
+            container_layout,
             "Export Tab - Exporting Your Workflow",
             "This tab allows you to export your projects workflow to RO-Crate.",
             "Step 1: Enter author information. This must include the authors name. "
@@ -90,12 +98,13 @@ class InstructionTab(QWidget):
             "hit Export RO-Crate.",
         )
         self._add_section(
-            main_layout,
+            container_layout,
             "Import Tab - Importing an Existing RO-Crate",
             "This tab allows you to import an existing RO-Crate. This can be used to "
             "recreate the workflow graph from a previously exported RO-Crate.",
         )
 
+        scroll_area.setWidget(container)
         main_layout.addWidget(scroll_area)
         self.setLayout(main_layout)
 
