@@ -1,6 +1,6 @@
 [project]
 name = "qflowcrate"
-version = "0.1.0"
+version = "1.0.0"
 description = "QGIS plugin for automated workflow documentation and export to RO-Crate"
 readme = "README.md"
 license = { file = "LICENSE" }

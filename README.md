@@ -4,7 +4,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![QGIS >= 3.24](https://img.shields.io/badge/QGIS-%3E%3D3.24-green)](https://qgis.org)
-[![Latest Release](https://img.shields.io/github/v/release/nicevibesplus/QFlowCrate)](https://github.com/nicevibesplus/QFlowCrate/releases/download/v0.0.10/qflowcrate-v0.0.10.zip)
+[![Latest Release](https://img.shields.io/github/v/release/nicevibesplus/QFlowCrate)](https://github.com/nicevibesplus/QFlowCrate/releases/download/v1.0.0/qflowcrate-v1.0.0.zip)
 
 A QGIS plugin that retrieves the steps of a spatial analysis workflow and bundles everything into a **RO-Crate** – a self-describing, machine-readable package that contains data, metadata, and provenance information. It helps with making QGIS projects reproducible, shareable, and ready for FAIR publishing.
 <br clear="right"/>
@@ -63,7 +63,7 @@ QFlowCrate will help you document the **metadata** of your project, prompting to
 
 ### 1️⃣ Download the latest release  
 
-Go to the **[Releases](https://github.com/nicevibesplus/QFlowCrate/releases)** page and download the ZIP file for the most recent version (Currently [qflowcrate-v0.0.10.zip](https://github.com/nicevibesplus/QFlowCrate/releases/download/v0.0.10/qflowcrate-v0.0.10.zip)).
+Go to the **[Releases](https://github.com/nicevibesplus/QFlowCrate/releases)** page and download the ZIP file for the most recent version (Currently [qflowcrate-v1.0.0.zip](https://github.com/nicevibesplus/QFlowCrate/releases/download/v1.0.0/qflowcrate-v1.0.0.zip)).
 
 ### 2️⃣ Install the plugin in QGIS  
 
